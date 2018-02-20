@@ -97,7 +97,7 @@ public class CustomerLogin extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        firebaseAuth.addAuthStateListener(firebaseAuthStateListener);
+       firebaseAuth.addAuthStateListener(firebaseAuthStateListener);
 
 
     }
@@ -105,7 +105,7 @@ public class CustomerLogin extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        firebaseAuth.addAuthStateListener(firebaseAuthStateListener);
+       firebaseAuth.addAuthStateListener(firebaseAuthStateListener);
 
     }
 

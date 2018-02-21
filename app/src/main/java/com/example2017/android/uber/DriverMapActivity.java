@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -20,6 +22,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -111,10 +117,35 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
 
 
+        String userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference db= FirebaseDatabase.getInstance().getReference().child("DriverAvailable");
+
+        GeoFire geoFire=new GeoFire(db);
+        geoFire.setLocation(userId, new GeoLocation(location.getLatitude(), location.getLongitude()), new GeoFire.CompletionListener() {
+            @Override
+            public void onComplete(String key, DatabaseError error) {
+
+            }
+            });
+
+
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        String userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference db= FirebaseDatabase.getInstance().getReference("DriverAvailable");
+
+
+        GeoFire geoFire=new GeoFire(db);
+        geoFire.removeLocation(userId);
 
     }
 }

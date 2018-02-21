@@ -35,7 +35,7 @@ public class CustomerLogin extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
 
-                    Intent intent = new Intent(CustomerLogin.this, MapActivity.class);
+                    Intent intent = new Intent(CustomerLogin.this, CustomerMapActivity.class);
                     startActivity(intent);
                     finish();
                 return;

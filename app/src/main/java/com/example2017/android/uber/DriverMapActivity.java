@@ -145,7 +145,14 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
 
         GeoFire geoFire=new GeoFire(db);
-        geoFire.removeLocation(userId);
+        geoFire.removeLocation(userId, new GeoFire.CompletionListener() {
+            @Override
+            public void onComplete(String key, DatabaseError error) {
+
+            }
+        });
+
+        ;
 
     }
 }
